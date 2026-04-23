@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulos — Destrave o Crédito da Sua Empresa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C8A84B; --gold2: #E2C06A; --dark: #080809; --dark2: #0F0F12;
+    --dark3: #16161C; --dark4: #1E1E27; --cream: #F2EDE3; --cream2: #C9C3B5;
+    --cream3: #7A7568; --green: #27C97A; --red: #E04444; --blue: #4A9EFF; --purple: #9B6EFF;
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--dark); color: var(--cream); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity:0.025; pointer-events:none; z-index:1000;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 99;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 40px;
+    background: rgba(8,8,9,0.97);
+    border-bottom: 1px solid rgba(200,168,75,0.1);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; color:var(--gold); letter-spacing:2px; text-transform:uppercase; text-decoration:none; }
+  .nav-back { display:flex; align-items:center; gap:8px; color:var(--cream3); font-size:13px; text-decoration:none; transition:color 0.2s; }
+  .nav-back:hover { color:var(--gold); }
+  .nav-cta { background:var(--gold); color:var(--dark); border:none; padding:10px 24px; font-family:'Outfit',sans-serif; font-weight:600; font-size:13px; border-radius:2px; cursor:pointer; text-decoration:none; transition:opacity 0.2s; }
+  .nav-cta:hover { opacity:0.85; }
+
+  /* HERO */
+  .page-hero {
+    background: var(--dark2);
+    border-bottom: 1px solid rgba(200,168,75,0.1);
+    padding: 60px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:600px; height:300px;
+    background: radial-gradient(ellipse, rgba(200,168,75,0.07) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .page-hero::after {
+    content:''; position:absolute; inset:0;
+    background-image: linear-gradient(rgba(200,168,75,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200,168,75,0.04) 1px, transparent 1px);
+    background-size: 60px 60px; pointer-events:none;
+  }
+  .page-hero-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-bottom:16px; position:relative; z-index:2; }
+  .page-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,5vw,58px); font-weight:700; color:var(--cream); line-height:1.1; position:relative; z-index:2; }
+  .page-hero h1 em { font-style:italic; color:var(--gold); }
+  .page-hero p { font-size:16px; color:var(--cream2); margin-top:16px; max-width:580px; margin-left:auto; margin-right:auto; line-height:1.65; font-weight:300; position:relative; z-index:2; }
+
+  /* MODULE NAV PILLS */
+  .module-nav { background:var(--dark3); border-bottom:1px solid rgba(200,168,75,0.08); padding:16px 24px; display:flex; justify-content:center; gap:8px; flex-wrap:wrap; position:sticky; top:57px; z-index:90; }
+  .m-pill { font-family:'DM Mono',monospace; font-size:11px; padding:7px 16px; border:1px solid rgba(200,168,75,0.2); border-radius:2px; color:var(--cream3); cursor:pointer; text-decoration:none; transition:all 0.2s; white-space:nowrap; }
+  .m-pill:hover, .m-pill.active { background:var(--gold); color:var(--dark); border-color:var(--gold); }
+
+  /* MAIN LAYOUT */
+  .main { max-width: 1000px; margin: 0 auto; padding: 60px 24px 100px; }
+
+  /* MODULE BLOCK */
+  .module-block { margin-bottom: 80px; scroll-margin-top: 120px; }
+  .module-block:last-child { margin-bottom: 0; }
+
+  .module-intro {
+    display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: flex-start;
+    margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid rgba(200,168,75,0.12);
+  }
+  .module-badge {
+    background: rgba(200,168,75,0.08); border: 1px solid rgba(200,168,75,0.2);
+    border-radius: 3px; padding: 12px 16px; text-align: center; min-width: 90px;
+  }
+  .module-badge-num { font-family:'DM Mono',monospace; font-size:10px; color:var(--gold); letter-spacing:2px; }
+  .module-badge-icon { font-size:28px; margin: 8px 0 4px; }
+  .module-title-wrap h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(22px,3vw,34px); font-weight:700; color:var(--cream); line-height:1.2; margin-bottom:10px; }
+  .module-title-wrap h2 em { font-style:italic; color:var(--gold); }
+  .module-title-wrap p { font-size:14px; color:var(--cream2); line-height:1.7; max-width:680px; }
+
+  /* TOPICS */
+  .topics { display: flex; flex-direction: column; gap: 24px; }
+  .topic {
+    background: var(--dark3); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 4px; overflow: hidden; transition: border-color 0.2s;
+  }
+  .topic:hover { border-color: rgba(200,168,75,0.18); }
+
+  .topic-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 24px; cursor: pointer; user-select: none;
+  }
+  .topic-num { font-family:'DM Mono',monospace; font-size:11px; color:var(--gold); min-width:28px; }
+  .topic-name { font-size:15px; font-weight:500; color:var(--cream); flex:1; line-height:1.4; }
+  .topic-tags { display:flex; gap:6px; flex-wrap:wrap; }
+  .tag { display:inline-block; font-family:'DM Mono',monospace; font-size:10px; padding:3px 8px; border-radius:2px; white-space:nowrap; }
+  .tag-warn { background:rgba(224,68,68,0.12); color:var(--red); border:1px solid rgba(224,68,68,0.2); }
+  .tag-tip { background:rgba(39,201,122,0.1); color:var(--green); border:1px solid rgba(39,201,122,0.2); }
+  .tag-info { background:rgba(74,158,255,0.1); color:var(--blue); border:1px solid rgba(74,158,255,0.2); }
+  .tag-gold { background:rgba(200,168,75,0.1); color:var(--gold); border:1px solid rgba(200,168,75,0.2); }
+  .topic-arrow { color:var(--gold); font-size:16px; transition:transform 0.3s; flex-shrink:0; }
+  .topic.open .topic-arrow { transform:rotate(90deg); }
+
+  .topic-body { max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+  .topic.open .topic-body { max-height:800px; }
+  .topic-content { padding:0 24px 24px; border-top:1px solid rgba(200,168,75,0.07); }
+
+  .topic-detail { margin-top:16px; }
+  .detail-item { display:flex; gap:12px; margin-bottom:14px; align-items:flex-start; }
+  .detail-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); flex-shrink:0; margin-top:6px; opacity:0.6; }
+  .detail-text { font-size:13px; color:var(--cream2); line-height:1.7; }
+  .detail-text strong { color:var(--cream); font-weight:500; }
+  .detail-text em { color:var(--gold); font-style:normal; }
+
+  /* CALLOUT */
+  .callout { border-left:3px solid var(--gold); background:var(--dark4); padding:16px 20px; border-radius:0 3px 3px 0; margin-top:16px; font-size:13px; color:var(--cream2); line-height:1.7; }
+  .callout strong { color:var(--gold); }
+  .callout-red { border-left-color:var(--red); }
+  .callout-red strong { color:var(--red); }
+  .callout-green { border-left-color:var(--green); }
+  .callout-green strong { color:var(--green); }
+  .callout-blue { border-left-color:var(--blue); }
+  .callout-blue strong { color:var(--blue); }
+
+  /* EXAMPLE BOX */
+  .example-box {
+    background: var(--dark4); border-radius:3px; padding:16px 20px; margin-top:14px;
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  .example-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--cream3); margin-bottom:10px; }
+  .example-content { font-size:13px; color:var(--cream2); line-height:1.7; }
+
+  /* DIVIDER */
+  .section-divider { height:1px; background:linear-gradient(90deg, transparent, rgba(200,168,75,0.2), transparent); margin:60px 0; }
+
+  /* CTA BOTTOM */
+  .cta-bottom {
+    background: var(--dark3); border:1px solid rgba(200,168,75,0.2); border-radius:6px;
+    padding:48px; text-align:center; margin-top:60px;
+    position:relative; overflow:hidden;
+  }
+  .cta-bottom::before {
+    content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:400px; height:200px;
+    background:radial-gradient(ellipse, rgba(200,168,75,0.06) 0%, transparent 70%);
+  }
+  .cta-bottom h3 { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:700; color:var(--cream); margin-bottom:12px; position:relative; z-index:2; }
+  .cta-bottom h3 em { font-style:italic; color:var(--gold); }
+  .cta-bottom p { font-size:14px; color:var(--cream2); margin-bottom:28px; line-height:1.65; position:relative; z-index:2; }
+  .btn-gold { display:inline-block; background:var(--gold); color:var(--dark); padding:16px 40px; font-family:'Outfit',sans-serif; font-weight:600; font-size:15px; border-radius:2px; text-decoration:none; transition:transform 0.2s, box-shadow 0.2s; position:relative; z-index:2; }
+  .btn-gold:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(200,168,75,0.3); }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media (max-width:640px) {
+    nav { padding:12px 16px; }
+    .module-intro { grid-template-columns:1fr; }
+    .module-badge { display:none; }
+    .cta-bottom { padding:32px 20px; }
+    .topic-tags { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">← Voltar à página principal</a>
+  <a href="index.html" class="nav-logo">Crédito Empresarial</a>
+  <a href="index.html#oferta" class="nav-cta">Garantir vaga →</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-label">Conteúdo Completo</div>
+  <h1>O que você vai aprender<br>em cada <em>módulo</em></h1>
+  <p>Tudo que um analista de crédito bancário analisa antes de aprovar ou recusar sua empresa — com o nível de detalhe que só quem trabalhou dentro do banco pode oferecer.</p>
+</div>
+
+<!-- MODULE PILLS -->
+<div class="module-nav">
+  <a href="#m1" class="m-pill active">01 · Contrato Social</a>
+  <a href="#m2" class="m-pill">02 · CNPJ e Faturamento</a>
+  <a href="#m3" class="m-pill">03 · Operações e Garantias</a>
+  <a href="#m4" class="m-pill">04 · Relacionamento e Red Flags</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ===== MÓDULO 1 ===== -->
+  <div class="module-block reveal" id="m1">
+    <div class="module-intro">
+      <div class="module-badge">
+        <div class="module-badge-num">MÓD. 01</div>
+        <div class="module-badge-icon">📄</div>
+      </div>
+      <div class="module-title-wrap">
+        <h2>Análise do <em>Contrato Social</em></h2>
+        <p>O contrato social é a primeira coisa que o banco lê. Antes de olhar faturamento ou fluxo de caixa, o analista quer entender quem são os sócios, há quanto tempo a empresa existe e se houve mudanças recentes na estrutura societária. Você vai aprender a preparar cada um desses pontos.</p>
+      </div>
+    </div>
+
+    <div class="topics">
+
+      <div class="topic open">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">1.1</span>
+          <span class="topic-name">Tempo de constituição — a regra do 1 ano</span>
+          <div class="topic-tags"><span class="tag tag-info">FUNDAMENTAL</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Por que 1 ano é o mínimo:</strong> bancos exigem histórico de operação real. Uma empresa com menos de 12 meses não tem ciclo completo de faturamento, sazonalidade nem histórico bancário suficiente para embasar uma análise de risco.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O que muda abaixo de 1 ano:</strong> o gerente precisa fazer uma defesa manual da operação para o comitê de crédito. Isso eleva o risco de rejeição e o tempo de análise — e a maioria dos gerentes evita essa burocracia.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como trabalhar com CNPJ jovem:</strong> existem estratégias específicas — garantias complementares, relacionamento bancário acelerado, produtos de menor risco como antecipação de recebíveis — que aumentam as chances mesmo abaixo do prazo ideal.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Operações robustas exigem mais:</strong> capital de giro estruturado e financiamento de veículos costumam exigir 36 meses de atividade comprovada. Entenda quais operações são acessíveis em cada fase da empresa.</div></div>
+            </div>
+            <div class="callout"><strong>💡 Insight prático:</strong> Uma empresa com 10 meses que movimenta bem a conta, tem maquininha ativa e sócios com histórico limpo tem mais chance de aprovação do que uma empresa com 2 anos que nunca usou o banco.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">1.2</span>
+          <span class="topic-name">Troca de sociedade — o que o banco enxerga nessa mudança</span>
+          <div class="topic-tags"><span class="tag tag-warn">ATENÇÃO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Por que o banco desconfia:</strong> entrada ou saída de sócios recente levanta questionamentos sobre estabilidade da empresa. O analista quer entender o motivo — foi uma reorganização planejada ou alguém saiu por algum problema?</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O que analisar:</strong> data da alteração contratual, quem entrou e quem saiu, se o sócio que saiu tem restrições (isso pode contaminar a análise mesmo após a saída), qual a participação de cada sócio atual.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como explicar ao gerente:</strong> nunca deixe essa dúvida sem resposta. Traga a explicação por escrito — motivo da alteração, data, quem assumiu a gestão. Quem se antecipa às perguntas transmite credibilidade.</div></div>
+            </div>
+            <div class="callout callout-red"><strong>⚠️ Red flag:</strong> Alteração societária nos últimos 3 meses combinada com solicitação de crédito alto é um dos padrões que mais ativa alerta nos sistemas de risco dos bancos.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">1.3</span>
+          <span class="topic-name">Perfil dos sócios — CPF, BACEN e restrições</span>
+          <div class="topic-tags"><span class="tag tag-warn">CRÍTICO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O banco puxa o BACEN de cada sócio:</strong> o Sistema de Informações de Crédito do Banco Central mostra todo o histórico de crédito da pessoa física — dívidas vencidas, operações em andamento, histórico de pagamentos.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Vencimento nos últimos 12 meses:</strong> mesmo que já esteja regularizado, um registro de inadimplência recente é um sinal de alerta. O analista vai querer entender o que aconteceu — e se pode acontecer de novo.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Quantos sócios importa?</strong> Em empresas com múltiplos sócios, o banco puxa o BACEN de todos. Se apenas um sócio tem restrição, a operação pode ser prejudicada mesmo que os demais estejam com histórico limpo.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Conta física na instituição:</strong> sócios com conta PF no mesmo banco facilitam a análise e aumentam o nível de relacionamento. O banco já conhece o comportamento financeiro da pessoa.</div></div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">EXEMPLO REAL</div>
+              <div class="example-content">Empresa com R$ 800k de faturamento anual foi reprovada porque um sócio minoritário (20% do capital) tinha um vencimento de R$ 3.000 de 8 meses atrás já quitado. O gerente não conseguiu defender a operação no comitê. Saiba como evitar esse cenário.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">1.4</span>
+          <span class="topic-name">IRPF dos sócios — bens declarados como ativo positivo</span>
+          <div class="topic-tags"><span class="tag tag-tip">VANTAGEM</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Por que o banco valoriza bens declarados:</strong> imóveis e veículos no IRPF do sócio demonstram capacidade de acumulação patrimonial. Para o analista, isso significa que o sócio tem comportamento financeiro responsável — ele constrói patrimônio, não apenas consome renda.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Não precisa alienar:</strong> o simples fato de possuir os bens já é positivo na análise. Em operações maiores isso pode ser exigido como garantia — mas em operações iniciais, ter o patrimônio declarado já agrega credibilidade.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O que apresentar:</strong> extrato do IRPF com a relação de bens, ou comprovante de propriedade dos imóveis/veículos. Leve isso pronto — o banco não vai pedir se você não mostrar que existe.</div></div>
+            </div>
+            <div class="callout callout-green"><strong>✅ Estratégia:</strong> Sócios que declaram imóveis e veículos, mesmo que financiados, têm mais facilidade na aprovação de operações de até R$ 300k sem garantia adicional.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">1.5</span>
+          <span class="topic-name">Idade dos sócios — o impacto na análise e como contornar</span>
+          <div class="topic-tags"><span class="tag tag-info">ATENÇÃO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Abaixo de 30 anos é mais difícil:</strong> não é impossível, mas o gerente precisará montar uma defesa mais robusta para o comitê de crédito. A lógica do banco é que sócios mais jovens têm menos histórico financeiro e patrimonial.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O que fortalece a análise em sócios jovens:</strong> faturamento consistente nos últimos meses, movimentação bancária ativa, patrimônio declarado, garantias reais e histórico de crédito limpo — mesmo que curto.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como ajudar o gerente a defender sua operação:</strong> você vai aprender a montar um dossiê de credibilidade — documento que apresenta os pontos fortes do negócio e dos sócios de forma que facilite a defesa no comitê.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== MÓDULO 2 ===== -->
+  <div class="module-block reveal" id="m2">
+    <div class="module-intro">
+      <div class="module-badge">
+        <div class="module-badge-num">MÓD. 02</div>
+        <div class="module-badge-icon">📊</div>
+      </div>
+      <div class="module-title-wrap">
+        <h2>CNPJ, <em>Faturamento</em> e Fluxo de Caixa</h2>
+        <p>Depois do contrato social, o banco mergulha nos números da empresa. Faturamento, despesas, endividamento atual e capacidade de pagamento — tudo calculado antes de qualquer aprovação. Saber como esses cálculos funcionam é a diferença entre aprovação e reprovação.</p>
+      </div>
+    </div>
+
+    <div class="topics">
+
+      <div class="topic open">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">2.1</span>
+          <span class="topic-name">Faturamento e prazos por tipo de operação</span>
+          <div class="topic-tags"><span class="tag tag-info">REGRA</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>12 meses de faturamento:</strong> suficiente para operações simples como cheque especial, cartão PJ, limite de conta e capital de giro básico. O banco quer ver um ano completo para entender sazonalidade.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>36 meses de faturamento:</strong> exigido para operações mais robustas — capital de giro estruturado, financiamento de veículos pesados, linhas de investimento. Três anos mostram consistência e ciclos de mercado.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Faturamento atualizado:</strong> o banco quer os últimos meses, não a média do ano anterior. Se seu faturamento cresceu, isso precisa aparecer nos extratos recentes — não apenas no DRE do ano passado.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como apresentar:</strong> extrato bancário dos últimos 12 ou 36 meses, faturamento do Simples Nacional ou relatório contábil. A receita precisa bater com o que entra na conta — inconsistência é red flag.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">2.2</span>
+          <span class="topic-name">Fluxo de caixa — o que o analista realmente calcula</span>
+          <div class="topic-tags"><span class="tag tag-warn">CRÍTICO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O cálculo real:</strong> Faturamento − Despesas fixas − Despesas variáveis − Parcelas já existentes no BACEN = Capacidade de pagamento disponível. Se o valor que sobra não cobre a nova parcela, a operação não avança.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Seja realista nas despesas:</strong> o banco já sabe o que você deve pelo BACEN. Se você subestimar as despesas no fluxo, o analista vai perceber a inconsistência e isso vai minar sua credibilidade.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>A receita precisa bater:</strong> o que você declara no fluxo de caixa precisa ser compatível com o que entra na conta bancária. Um faturamento declarado de R$ 150k/mês com extrato mostrando R$ 60k de entradas levanta dúvida imediata.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Calcule antes de pedir:</strong> apresente o fluxo de caixa já calculado, mostrando a sobra disponível para assumir a nova parcela. Quem chega com esse número pronto transmite controle financeiro.</div></div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">SIMULAÇÃO</div>
+              <div class="example-content">Faturamento mensal: R$ 120.000 | Despesas operacionais: R$ 65.000 | Parcelas existentes (BACEN): R$ 18.000 | <strong style="color:var(--gold)">Sobra disponível: R$ 37.000</strong> — este é o valor máximo de parcela que o banco vai aprovar. Vamos ensinar a construir esse cálculo para o seu caso.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">2.3</span>
+          <span class="topic-name">A regra dos 30% — limite de exposição por banco</span>
+          <div class="topic-tags"><span class="tag tag-warn">ESTRATÉGICO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como funciona:</strong> grandes bancos calculam seu endividamento total no BACEN e limitam sua própria exposição a aproximadamente 30% desse total. Se você deve R$ 1 milhão no total, o banco não quer assumir mais de R$ 300k.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Por que isso importa para você:</strong> se você concentra toda sua dívida em um único banco e está chegando nesse limite, as chances de aprovação de novas operações caem drasticamente — mesmo com bom faturamento.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>A solução: diversificação bancária:</strong> abrir conta e construir relacionamento em 2 ou 3 instituições diferentes multiplica sua capacidade de crédito total. Cada banco pode assumir 30% do seu BACEN de forma independente.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Quando começar a diversificar:</strong> não espere chegar no limite. Se você tem crédito concentrado em um banco, já está na hora de abrir relacionamento em outros — esse processo leva tempo e precisa ser construído com antecedência.</div></div>
+            </div>
+            <div class="callout callout-blue"><strong>🏦 Estratégia avançada:</strong> Distribua a movimentação financeira entre bancos. Folha de pagamento em um, recebimento de clientes em outro, maquininha em um terceiro. Isso constrói relacionamento em paralelo e maximiza seu potencial de crédito total.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">2.4</span>
+          <span class="topic-name">Estrutura visível da empresa — o que o banco quer ver além dos números</span>
+          <div class="topic-tags"><span class="tag tag-gold">DIFERENCIAL</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Número de funcionários:</strong> reflete porte real da operação. Uma empresa com R$ 500k de faturamento e 0 funcionários levanta dúvida sobre a operacionalidade do negócio.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Fachada e estrutura física:</strong> o banco pode solicitar visita ou fotos da empresa. Uma operação sem endereço físico visível ou com estrutura muito aquém do faturamento declarado compromete a análise.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Estoque:</strong> para comércio e indústria, o estoque é um ativo que demonstra operação ativa. Saiba como apresentá-lo de forma que agregue valor à sua análise.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Localização:</strong> endereço em região comercial consolidada é positivo. Empresas em endereços residenciais ou com localização inconsistente com o segmento geram questionamentos.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Não espere o gerente pedir:</strong> chegue com foto da empresa, comprovante do endereço, relação de funcionários e organograma básico. Quem entrega a informação antes da pergunta transmite transparência e organização.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== MÓDULO 3 ===== -->
+  <div class="module-block reveal" id="m3">
+    <div class="module-intro">
+      <div class="module-badge">
+        <div class="module-badge-num">MÓD. 03</div>
+        <div class="module-badge-icon">🏗️</div>
+      </div>
+      <div class="module-title-wrap">
+        <h2>Operações <em>Estruturadas</em> e Garantias</h2>
+        <p>Para operações maiores, o banco exige documentação financeira formal e garantias reais. Mas existem linhas de crédito acessíveis que dependem muito menos dessas exigências — e poucos empresários sabem quais são e como acessá-las.</p>
+      </div>
+    </div>
+
+    <div class="topics">
+
+      <div class="topic open">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">3.1</span>
+          <span class="topic-name">Balanço, Balancete e DRE — quando são obrigatórios</span>
+          <div class="topic-tags"><span class="tag tag-info">DOCUMENTAÇÃO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Balanço patrimonial:</strong> exigido em operações acima de R$ 500k ou em financiamentos estruturados. Mostra ativos, passivos e patrimônio líquido — o retrato completo da saúde financeira da empresa.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Balancete:</strong> versão mensal ou trimestral do balanço. Útil para operações intermediárias e para mostrar evolução recente quando o balanço anual está defasado.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>DRE (Demonstração de Resultado):</strong> mostra receitas, custos e lucro líquido. O banco cruza o DRE com o extrato bancário para validar a consistência dos números declarados.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como apresentar corretamente:</strong> documentos assinados pelo contador com CRC, consistentes entre si e compatíveis com o extrato bancário. Divergências entre DRE e extrato são um dos principais motivos de reprovação.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">3.2</span>
+          <span class="topic-name">Capital de giro com garantia de recebíveis — a linha mais acessível</span>
+          <div class="topic-tags"><span class="tag tag-tip">MAIS FÁCIL</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como funciona:</strong> o banco usa seus recebíveis futuros como garantia — vendas via maquininha de cartão ou boletos emitidos a clientes. O limite é calculado com base no volume de recebimentos mensais.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Por que é mais fácil:</strong> a garantia é líquida e automaticamente capturada pelo banco. O risco para a instituição é menor, o que facilita a aprovação mesmo para empresas com histórico bancário mais curto.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Maquininha de cartão:</strong> ter a maquininha do mesmo banco que você quer crédito é um dos fatores que mais aumenta o limite disponível. O banco vê o fluxo de recebimentos em tempo real.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Boletos emitidos:</strong> empresas que vendem a prazo para outras empresas (B2B) podem usar a carteira de boletos como garantia — mesmo que os boletos ainda não tenham vencido.</div></div>
+            </div>
+            <div class="callout callout-green"><strong>✅ Primeira operação ideal:</strong> Para quem está começando a construir histórico de crédito PJ, a antecipação de recebíveis com maquininha do banco é o melhor caminho — limite mais alto, análise mais rápida e constrói relacionamento.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">3.3</span>
+          <span class="topic-name">Capital de giro com garantia de investimento</span>
+          <div class="topic-tags"><span class="tag tag-gold">ESTRATÉGIA</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como funciona:</strong> você aplica um valor em CDB ou fundo do banco e usa esse investimento como garantia para tomar um empréstimo equivalente. Aplica R$ 100k, pega R$ 100k de crédito — e o investimento continua rendendo.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Custo real:</strong> a taxa do empréstimo menos o rendimento do investimento. Em muitos casos, o custo líquido fica abaixo de 1% a.m. — uma das linhas mais baratas disponíveis para PJ.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Para valores maiores:</strong> operações acima de R$ 300k nessa modalidade dependem de análise de risco mais detalhada, mas o processo é muito mais simples do que um capital de giro convencional.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Quando usar:</strong> ideal para empresas que têm reserva mas precisam de liquidez adicional para aproveitar oportunidade de negócio sem desaplicar o investimento.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">3.4</span>
+          <span class="topic-name">Garantias reais — veículos, imóveis e guarda-chuva</span>
+          <div class="topic-tags"><span class="tag tag-info">OPERAÇÕES MAIORES</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Garantia de veículos:</strong> alienação fiduciária de veículos da empresa ou dos sócios. O banco financia até 70–80% do valor do bem. Processo rápido para operações de médio porte.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Garantia de imóveis:</strong> alienação ou hipoteca de imóveis — permite crédito de maior volume e taxas mais baixas. O processo é mais longo (avaliação, cartório, registro) mas abre acesso a linhas estruturadas.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Guarda-chuva:</strong> estrutura onde uma garantia real (imóvel ou portfólio de bens) cobre múltiplas operações ao mesmo tempo. Usado em linhas de crédito rotativo de grande porte.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Financiamentos:</strong> veículos, equipamentos e máquinas têm linhas próprias com análise mais simples — o bem financiado já serve como garantia. São as operações mais fáceis de aprovar e uma boa forma de construir histórico.</div></div>
+            </div>
+            <div class="callout"><strong>💡 Ordem estratégica:</strong> Comece por recebíveis → construa histórico → suba para garantia de veículos → depois imóveis. Cada degrau aprovado com pagamento em dia abre o próximo com mais facilidade.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== MÓDULO 4 ===== -->
+  <div class="module-block reveal" id="m4">
+    <div class="module-intro">
+      <div class="module-badge">
+        <div class="module-badge-num">MÓD. 04</div>
+        <div class="module-badge-icon">🤝</div>
+      </div>
+      <div class="module-title-wrap">
+        <h2>Relacionamento Bancário<br>e <em>Red Flags</em></h2>
+        <p>O banco não te dá crédito porque você pediu — ele te dá porque você construiu um relacionamento que justifica o risco. Entenda como o banco mede seu nível de relacionamento e quais comportamentos travam qualquer operação antes mesmo de começar.</p>
+      </div>
+    </div>
+
+    <div class="topics">
+
+      <div class="topic open">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">4.1</span>
+          <span class="topic-name">Como o banco calcula seu score de relacionamento interno</span>
+          <div class="topic-tags"><span class="tag tag-gold">SCORE INTERNO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Produtos contratados:</strong> cada produto ativo (conta, cartão, seguro, previdência, maquininha, consórcio) aumenta seu score de relacionamento. O banco prefere clientes que usam o ecossistema completo.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Movimentação financeira:</strong> volume de TED/Pix recebidos, faturamento via maquininha de cartão, frequência de transações. Conta parada não constrói relacionamento — o banco precisa ver dinheiro passando por ali.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Débitos automáticos:</strong> fornecedores, contas fixas e serviços pagos pela conta PJ demonstram que a empresa usa o banco como parceiro financeiro real, não apenas como depósito.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Folha de pagamento:</strong> processar a folha pelo banco é um dos indicadores mais valorizados. Ele mostra comprometimento de longo prazo e movimentação regular e previsível.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Concentração de movimentação:</strong> onde está o grosso do dinheiro da empresa define qual banco tem mais poder de aprovação. Quem concentra 80% da movimentação em um banco tem mais leverage para pedir crédito nele.</div></div>
+            </div>
+            <div class="callout callout-blue"><strong>🏦 Regra prática:</strong> Antes de pedir crédito, passe pelo menos 3 meses movimentando bem a conta — TED, Pix, maquininha, pagamentos. Esse período constrói o histórico que o gerente vai usar para defender sua operação.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">4.2</span>
+          <span class="topic-name">Fornecedores e concentração de clientes</span>
+          <div class="topic-tags"><span class="tag tag-info">RISCO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Concentração em um fornecedor:</strong> se 80% das suas compras vêm de um único fornecedor, o banco enxerga risco de dependência. Se esse fornecedor fechar ou mudar as condições, sua operação pode travar.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Concentração em um cliente:</strong> o mesmo princípio vale para receita. Se um único cliente representa 70% do faturamento, o banco vai questionar a sustentabilidade do negócio na ausência desse cliente.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como apresentar:</strong> liste seus 5 maiores fornecedores e 5 maiores clientes com percentual de participação. Mostrar diversificação — mesmo que imperfeita — é melhor do que deixar o banco descobrir a concentração sozinho.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Se for concentrado:</strong> apresente o argumento estratégico. "Esse cliente representa 60% da nossa receita, temos contrato de 3 anos assinado e histórico de 5 anos de relacionamento" — isso muda o contexto.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">4.3</span>
+          <span class="topic-name">Setor de atuação — setores sensíveis para os bancos</span>
+          <div class="topic-tags"><span class="tag tag-warn">ATENÇÃO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Setores com maior dificuldade:</strong> construção civil (sazonalidade e risco de obra), bares e restaurantes (alta taxa de fechamento), importação (volatilidade cambial), startups sem histórico de receita.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Setores com mais facilidade:</strong> saúde, educação, agronegócio, transporte com contratos ativos, serviços essenciais com contratos de longo prazo — são segmentos que os bancos entendem e têm modelos de crédito desenvolvidos.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como posicionar sua empresa:</strong> o CNAE (código de atividade) importa, mas o contexto que você apresenta importa mais. Uma empresa de construção com contratos assinados e histórico de entregas é diferente de uma construtora sem obras em andamento.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">4.4</span>
+          <span class="topic-name">Red flags — o que trava qualquer operação antes de começar</span>
+          <div class="topic-tags"><span class="tag tag-warn">EVITE</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Resistência em enviar documentos:</strong> o banco interpreta demora ou relutância em entregar documentação como sinal de que tem algo a esconder. Seja o primeiro a oferecer — não espere ser pedido.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Empresa nova pedindo crédito alto:</strong> pedir R$ 500k com 6 meses de CNPJ e sem garantias é um sinal de desconhecimento do mercado financeiro ou pior — tentativa de golpe. Os sistemas de risco identificam esse padrão automaticamente.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Nome sujo recente:</strong> inadimplência regularizada há menos de 6 meses ainda é considerada no modelo de risco. O histórico de pagamento conta tanto quanto a situação atual.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Mudança frequente de CNPJ:</strong> abrir e fechar empresas recorrentemente é um padrão associado a dificuldades financeiras ou estruturação para burlar restrições. O banco cruza o histórico de CNPJs dos sócios.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Inconsistência entre documentos:</strong> faturamento no DRE diferente do extrato, número de funcionários incompatível com a folha, endereço divergente entre documentos — qualquer inconsistência para a análise.</div></div>
+            </div>
+            <div class="callout callout-red"><strong>⚠️ Regra de ouro:</strong> O banco tem acesso a mais informação sobre você do que você imagina. BACEN, Receita Federal, SERASA, registros de cartório, histórico de CNPJ dos sócios — tudo é cruzado antes da aprovação. Transparência total é a única estratégia.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <span class="topic-num">4.5</span>
+          <span class="topic-name">A defesa de crédito — como o Matheus vai ajudar você</span>
+          <div class="topic-tags"><span class="tag tag-tip">BÔNUS EXCLUSIVO</span></div>
+          <span class="topic-arrow">›</span>
+        </div>
+        <div class="topic-body">
+          <div class="topic-content">
+            <div class="topic-detail">
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O que é uma defesa de crédito:</strong> um documento estratégico que antecipa as dúvidas do analista e apresenta os pontos fortes da empresa de forma estruturada — o mesmo que um gerente experiente monta para defender uma operação no comitê.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>O que contém:</strong> resumo da empresa, histórico dos sócios, análise de faturamento, fluxo de caixa com capacidade de pagamento calculada, justificativa para o valor solicitado e argumentação sobre os pontos que podem gerar dúvida.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Por que faz diferença:</strong> o gerente precisa defender a operação para o comitê de crédito. Quem entrega esse material pronto está, na prática, facilitando o trabalho do gerente — e aumentando as chances de aprovação.</div></div>
+              <div class="detail-item"><div class="detail-dot"></div><div class="detail-text"><strong>Como funciona o bônus:</strong> após o curso, Matheus analisa seu caso específico — CNPJ, sócios, faturamento, situação bancária — e monta a defesa de crédito personalizada para você levar ao banco.</div></div>
+            </div>
+            <div class="callout callout-green"><strong>✅ Este é o diferencial:</strong> Você não vai apenas aprender o conteúdo — vai sair com um documento personalizado que maximiza suas chances de aprovação na próxima conversa com o banco.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA BOTTOM -->
+  <div class="cta-bottom reveal">
+    <h3>Pronto para <em>destravrar o crédito</em><br>da sua empresa?</h3>
+    <p>Aula individual online com Matheus Martins + Defesa de Crédito personalizada.<br>Por apenas R$ 197 via Pix.</p>
+    <a href="index.html#oferta" class="btn-gold">Garantir minha vaga — R$ 197 →</a>
+    <div style="margin-top:16px; font-size:12px; color:var(--cream3); display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap;">
+      <span>🔒 Pix seguro</span>
+      <span>↩ 7 dias de garantia</span>
+      <span>⚡ Acesso imediato</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer style="background:var(--dark2); border-top:1px solid rgba(200,168,75,0.08); padding:40px 24px; text-align:center;">
+  <div style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; color:var(--gold); letter-spacing:3px; text-transform:uppercase; margin-bottom:12px;">Crédito Empresarial</div>
+  <p style="font-size:12px; color:var(--cream3);">© 2025 · Matheus Martins · Todos os direitos reservados</p>
+</footer>
+
+<script>
+  // REVEAL
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // TOPIC ACCORDION
+  function toggleTopic(header) {
+    const topic = header.closest('.topic');
+    topic.classList.toggle('open');
+  }
+
+  // MODULE NAV ACTIVE
+  const pills = document.querySelectorAll('.m-pill');
+  const blocks = document.querySelectorAll('.module-block');
+  const navObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        pills.forEach(p => p.classList.remove('active'));
+        const id = e.target.id;
+        const active = document.querySelector(`.m-pill[href="#${id}"]`);
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  blocks.forEach(b => navObserver.observe(b));
+</script>
+</body>
+</html>
